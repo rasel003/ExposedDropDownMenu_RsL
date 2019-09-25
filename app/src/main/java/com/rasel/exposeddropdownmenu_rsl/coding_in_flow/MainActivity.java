@@ -1,7 +1,11 @@
 package com.rasel.exposeddropdownmenu_rsl.coding_in_flow;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +27,23 @@ public class MainActivity extends AppCompatActivity {
         AutoCompleteTextView editText = findViewById(R.id.actv);
         AutoCompleteCountryAdapter adapter = new AutoCompleteCountryAdapter(this, countryList);
         editText.setAdapter(adapter);
+
+        editText.setOnItemClickListener(onItemClickListener);
     }
+    private AdapterView.OnItemClickListener onItemClickListener =
+            new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(MainActivity.this, "Clicked item " + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+
+                    CountryItem countryItem = (CountryItem) adapterView.getItemAtPosition(i);
+
+                    Log.d("rsl", "value : "+countryItem.getCountryName());
+
+                    Log.d("rsl", "view: "+adapterView.getItemAtPosition(i).toString());
+                    Log.d("rsl", "position: "+i+" row: "+l);
+                }
+            };
 
     private void fillCountryList() {
         countryList = new ArrayList<>();
